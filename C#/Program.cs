@@ -313,13 +313,17 @@ public class Controller
             {
                 case "Up":
                     //Case Direction UP
-                    if (Elevators[i].RequestsUp.Any() && Elevators[i].Motion != "Stop"){
+                    if (Elevators[i].RequestsUp.Any() && Elevators[i].Motion != "Stop")
+                    {
                         //The next request is on the elevator way.
-                        if (Elevators[i].Position < Elevators[i].RequestsUp[0]){
-                            if (Elevators[i].Motion != "Up"){
+                        if (Elevators[i].Position < Elevators[i].RequestsUp[0])
+                        {
+                            if (Elevators[i].Motion != "Up")
+                            {
                                 Console.WriteLine("> Elevator: " + Elevators[i].ID.ToString() + ", Started engine to go Up");
                             }
-                            if (MoveUp(Elevators[i]) == Elevators[i].RequestsUp[0]){
+                            if (MoveUp(Elevators[i]) == Elevators[i].RequestsUp[0])
+                            {
                                 Console.WriteLine(">> Elevator: " + Elevators[i].ID + ", Has arrived at destination on floor: " + Elevators[i].RequestsUp[0].ToString());
                                 Elevators[i].RequestsUp.RemoveAt(0); //We can delete the floor from the list since we arrived there.
                                 Elevators[i].Motion = "Stop";   //Stop means people are getting In/Out.
@@ -327,11 +331,14 @@ public class Controller
                             }
                         }    
                         //Elevator must go pick someone and must go in the opposite direction as the calls it does.
-                        else if (Elevators[i].Position > Elevators[i].RequestsUp[0]){
-                            if (Elevators[i].Motion != "Down"){
+                        else if (Elevators[i].Position > Elevators[i].RequestsUp[0])
+                        {
+                            if (Elevators[i].Motion != "Down")
+                            {
                                 Console.WriteLine("> Elevator: " + Elevators[i].ID + ", Started engine to go Down");
                             }
-                            if (MoveDown(Elevators[i]) == Elevators[i].RequestsUp[0]){
+                            if (MoveDown(Elevators[i]) == Elevators[i].RequestsUp[0])
+                            {
                                 Console.WriteLine(">> Elevator: " + Elevators[i] + ", Has arrived at destination on floor: " + Elevators[i].RequestsUp[0].ToString());
                                 Elevators[i].RequestsUp.RemoveAt(0);
                                 Elevators[i].Motion = "Stop"; 
@@ -340,9 +347,12 @@ public class Controller
                         }
                     }
                     //Elevator is stopped but still has call to serve on this requests list.
-                    else if (Elevators[i].RequestsUp.Any() && Elevators[i].Motion == "Stop"){
-                        if (Elevators[i].Door == "Closed"){
-                            if (MoveUp(Elevators[i]) == Elevators[i].RequestsUp[0]){
+                    else if (Elevators[i].RequestsUp.Any() && Elevators[i].Motion == "Stop")
+                    {
+                        if (Elevators[i].Door == "Closed"
+                        ){
+                            if (MoveUp(Elevators[i]) == Elevators[i].RequestsUp[0])
+                            {
                                 Console.WriteLine(">> Elevator: " + Elevators[i].ID + ", Has arrived at destination on floor: " + Elevators[i].RequestsUp[0].ToString());
                                 Elevators[i].RequestsUp.RemoveAt(0);
                                 Elevators[i].Motion = "Stop";
@@ -351,8 +361,10 @@ public class Controller
                         }
                     }
                     //Switch direction if current request list is empty. 
-                    else if (!Elevators[i].RequestsUp.Any() && Elevators[i].Motion == "Stop"){
-                        if (Elevators[i].Door == "Closed"){
+                    else if (!Elevators[i].RequestsUp.Any() && Elevators[i].Motion == "Stop")
+                    {
+                        if (Elevators[i].Door == "Closed")
+                        {
                             if (Elevators[i].RequestsDown.Any())
                             {
                                 Elevators[i].Direction = "Down"; //It will be treated in the next iteration of the loop. We want to treat it in the Down section now. 
@@ -368,13 +380,17 @@ public class Controller
                     break;
                 case "Down":
                     //Case Direction = Down
-                    if (Elevators[i].RequestsDown.Any() && Elevators[i].Motion != "Stop"){
+                    if (Elevators[i].RequestsDown.Any() && Elevators[i].Motion != "Stop")
+                    {
                         //The next request is on the elevator way.
-                        if (Elevators[i].Position > Elevators[i].RequestsDown[0]){
-                            if (Elevators[i].Motion != "Down"){
+                        if (Elevators[i].Position > Elevators[i].RequestsDown[0])
+                        {
+                            if (Elevators[i].Motion != "Down")
+                            {
                                 Console.WriteLine("> Elevator: " + Elevators[i].ID + ", Started engine to go Down");
                             }
-                            if (MoveDown(Elevators[i]) == Elevators[i].RequestsDown[0]){
+                            if (MoveDown(Elevators[i]) == Elevators[i].RequestsDown[0])
+                            {
                                 Console.WriteLine(">> Elevator: " + Elevators[i].ID + ", Has arrived at destination on floor: " + Elevators[i].RequestsDown[0].ToString());
                                 Elevators[i].RequestsDown.RemoveAt(0);
                                 Elevators[i].Motion = "Stop";
@@ -383,11 +399,14 @@ public class Controller
                         }
         
                         //Elevator must go pick someone and must go in the opposite direction as the calls it does.
-                        else if (Elevators[i].Position < Elevators[i].RequestsDown[0]){
-                            if (Elevators[i].Motion != "Up"){
+                        else if (Elevators[i].Position < Elevators[i].RequestsDown[0])
+                        {
+                            if (Elevators[i].Motion != "Up")
+                            {
                                 Console.WriteLine("> Elevator: " + Elevators[i].ID + ", Started engine to go Up");    
                             }
-                            if (MoveUp(Elevators[i]) == Elevators[i].RequestsDown[0]){
+                            if (MoveUp(Elevators[i]) == Elevators[i].RequestsDown[0])
+                            {
                                 Console.WriteLine(">> Elevator: " + Elevators[i].ID + ", Has arrived at destination on floor: " + Elevators[i].RequestsDown[0].ToString());
                                 Elevators[i].RequestsDown.RemoveAt(0);
                                 Elevators[i].Motion = "Stop";
@@ -396,9 +415,12 @@ public class Controller
                         }
                     
                         //Elevator is stopped but still has call to serve on this requests list.
-                        else if (Elevators[i].RequestsDown.Any() && Elevators[i].Motion == "Stop"){
-                            if (Elevators[i].Door == "Closed"){
-                                if (MoveDown(Elevators[i]) == Elevators[i].RequestsDown[0]){
+                        else if (Elevators[i].RequestsDown.Any() && Elevators[i].Motion == "Stop")
+                        {
+                            if (Elevators[i].Door == "Closed")
+                            {
+                                if (MoveDown(Elevators[i]) == Elevators[i].RequestsDown[0])
+                                {
                                     Console.WriteLine(">> Elevator: " + Elevators[i].ID + ", Has arrived at destination on floor: " + Elevators[i].RequestsDown[0].ToString());
                                     Elevators[i].RequestsDown.RemoveAt(0);
                                     Elevators[i].Motion = "Stop";
@@ -408,7 +430,8 @@ public class Controller
                         }
                     }
                     //Switch direction if current request list is empty.
-                    else if (!Elevators[i].RequestsDown.Any() && Elevators[i].Motion == "Stop"){
+                    else if (!Elevators[i].RequestsDown.Any() && Elevators[i].Motion == "Stop")
+                    {
                         if (Elevators[i].Door == "Closed")
                         {
                             if (Elevators[i].RequestsUp.Any())
@@ -431,161 +454,88 @@ public class Controller
 
     //    Request Elevator   //
     //Description: Function used to return the best elevator for that call.
-    private void RequestElevator(int FloorNumber, string Direction){
-        /** Function used to return the best elevator for that call.*/
-        Console.WriteLine("> Outside Panel, Request Detected: Floor: " + String(FloorNumber) + ", Direction: " + String(Direction));
-        var AvailableElevators = [];
-
-        // STEP 1: If the elevator can receive calls, add it to Available Elevator List. 
-        for (var i = 0; i < this.Elevators.length; i++){
-            if (this.Elevators[i].Status == "On"){
-                AvailableElevators.push(this.Elevators[i]);
+    private void RequestElevator(int FloorNumber, string Direction)
+    {
+        Console.WriteLine("> Outside Panel, Request Detected: Floor: " + FloorNumber.ToString() + ", Direction: " + Direction);
+        // STEP 1: If the elevator can receive calls, add it to Available Elevator List.
+        List<Elevator> AvailableElevators = new List<Elevator>();
+        int i = 0;
+        foreach (Elevator element in Elevators)
+        {
+            if (Elevators[i].Status == "On")
+            {
+                AvailableElevators.Append(Elevators[i]);
             }
+            i++;
         }
 
-        // STEP 2: We check if the list contain more than one elements, if yes, we check if the request is already in the good request list.
-        // if the request is in one, then no need to treat the request.
-        switch (true){
-        case AvailableElevators.length > 1:
-            for (var i = 0; i < AvailableElevators.length; i++){
-                switch (true){
-                    case Direction = "Up" && AvailableElevators[i].Direction == "Up":
-                        if (AvailableElevators[i].RequestsUp.includes(FloorNumber)){
-                            Console.WriteLine(">> Outside Panel Floor: " + String(FloorNumber) + " Direction: " + String(Direction) + ", Elevator already in requests list. Request aborted.");
-                            Console.WriteLine("\n");
-                            return;
-                        }
-                        break; //Might not need the break because we already called a return.
-                    case Direction = "Down" && AvailableElevators[i].Direction == "Down":
-                        if (AvailableElevators[i].RequestsDown.includes(FloorNumber)){
-                            Console.WriteLine(">> Outside Panel Floor: " + String(FloorNumber) + " Direction: " + String(Direction) + ", Elevator already in requests list. Request aborted.");
-                            Console.WriteLine("\n");
-                            return;
-                        }
-                        break;
-                    case Direction = "Down" && AvailableElevators[i].Direction == "Up":
-                        if (AvailableElevators[i].RequestsDown.includes(FloorNumber)){
-                            Console.WriteLine(">> Outside Panel Floor: " + String(FloorNumber) + " Direction: " + String(Direction) + ", Elevator already in requests list. Request aborted.");
-                            Console.WriteLine("\n");
-                            return;
-                        }
-                        break;
-                    case Direction = "Up" && AvailableElevators[i].Direction == "Down":
-                        if (AvailableElevators[i].RequestsUp.includes(FloorNumber)){
-                            Console.WriteLine(">> Outside Panel Floor: " + String(FloorNumber) + " Direction: " + String(Direction) + ", Elevator already in requests list. Request aborted.");
-                            Console.WriteLine("\n");
-                            return;
-                        }
-                        break;
-                }
-            }
-
-        // STEP 3: We check there is on element in the list that meet those requirements: If it goes in the same direction as the call 
-        // AND if it has not already passed that floor.
-        var OnTheWay_U = false
-        var OnTheWay_D = false
-        for (var i = 0; i < AvailableElevators.length; i++){
-            if (AvailableElevators[i].Direction == Direction){
-                var eleDif = AvailableElevators[i].Position - FloorNumber;
-                switch (Direction){
+        if (AvailableElevators.Count() > 1)
+        {
+            i = 0;
+            foreach (Elevator element in Elevators)
+            {
+                switch (Direction)
+                {
                     case "Up":
-                        if (eleDif < 0){
-                            OnTheWay_U = true;
+                        if (AvailableElevators[i].Direction == "Up")
+                        {
+                            if (AvailableElevators[i].RequestsUp.Contains(FloorNumber))
+                            {
+                                Console.WriteLine(">> Outside Panel Floor: " + FloorNumber.ToString() + " Direction: " + Direction + ", Elevator already in requests list. Request aborted.");
+                                Console.WriteLine("\n");
+                                return;
+                            }
                         }
-                    case "Down":
-                        if (eleDif > 0){
-                            OnTheWay_D = true;
+                        else if (AvailableElevators[i].Direction == "Down")
+                        {
+                            if (AvailableElevators[i].RequestsUp.Contains(FloorNumber))
+                            {
+                                Console.WriteLine(">> Outside Panel Floor: " + FloorNumber.ToString() + " Direction: " + Direction + ", Elevator already in requests list. Request aborted.");
+                                Console.WriteLine("\n");
+                                return;
+                            }
                         }
-                }
-            }
-        }
-
-        //If one of the previous checks ended up True, there's no need to keep the others who doesn't meet those requirements.
-        if (OnTheWay_U){
-            for (var i = 0; i < AvailableElevators.length; i++){
-                if (AvailableElevators[i].Direction == "Down"){
-                    AvailableElevators.splice(i, 1);
-                }
-            }
-        }
-        else if (OnTheWay_D){
-            for (var i = 0; i < AvailableElevators.length; i++){
-                if (AvailableElevators[i].Direction == "Up"){
-                    AvailableElevators.splice(i, 1);
-                }
-            }
-        }
-
-        // STEP 4: Once the list only contains what we are sure is the Available Elevators, we find the lowest difference between 
-        // floor and elevator position, then look for the lowest number of requests.
-        var minDif = 9999;
-        var minReqs = 9999;
-        for (var i = 0; i < AvailableElevators.length; i++){
-                var eleDif = Math.abs(AvailableElevators[i].Position - FloorNumber);
-                if (eleDif <= minDif){
-                    minDif = eleDif;
-                }
-            }
-        for (var i = 0; i < AvailableElevators.length; i++){
-            var eleDif = Math.abs(AvailableElevators[i].Position - FloorNumber);
-            var eleReqs = AvailableElevators[i].RequestsUp.length + AvailableElevators[i].RequestsDown.length;
-            if (eleDif == minDif){
-                if (eleReqs <= minReqs){
-                    minReqs = eleReqs;
-                }
-            }
-        }
-
-        // STEP 5: Once we have the value of the lowest, we search it in the Available Elevators List and call the function AddRequest which add
-        // the request on the elevator good list. 
-        for (var i = 0; i < AvailableElevators.length; i++){
-            var eleDif = Math.abs(AvailableElevators[i].Position - FloorNumber);
-            var eleReqs = AvailableElevators[i].RequestsUp.length + AvailableElevators[i].RequestsDown.length;
-            if (eleDif == minDif && eleReqs == minReqs){
-                //Check in which Request List to add the requests.
-                switch (Direction){
-                    case "Up":
-                        Console.WriteLine(">> Request processed, elevator found: " + String(AvailableElevators[i].ID));
-                        AvailableElevators[i].AddRequest(FloorNumber, "Up");
-                        break;
+                    break;
                     case "Down":
-                        Console.WriteLine(">> Request processed, elevator found: " + String(AvailableElevators[i].ID));
-                        AvailableElevators[i].AddRequest(FloorNumber, "Down");
-                        break;
+                        if (AvailableElevators[i].Direction == "Down")
+                        {
+                            if (AvailableElevators[i].RequestsDown.Contains(FloorNumber))
+                            {
+                                Console.WriteLine(">> Outside Panel Floor: " + FloorNumber.ToString() + " Direction: " + Direction + ", Elevator already in requests list. Request aborted.");
+                                Console.WriteLine("\n");
+                                return;
+                            }
+                        }
+                        else if (AvailableElevators[i].Direction == "Up")
+                        {
+                            if (AvailableElevators[i].RequestsDown.Contains(FloorNumber))
+                            {
+                                Console.WriteLine(">> Outside Panel Floor: " + FloorNumber.ToString() + " Direction: " + Direction + ", Elevator already in requests list. Request aborted.");
+                                Console.WriteLine("\n");
+                                return;
+                            }
+                        }
+                    break;
                 }
+                
+                 // STEP 3: We check there is on element in the list that meet those requirements: If it goes in the same direction as the call 
+                // AND if it has not already passed that floor.
+                bool OnTheWay_U = false;
+                bool OnTheWay_D = false;
+                i++;
             }
         }
-        break;
-    case AvailableElevators.length = 1:
-         //If there is only one available elevator, send the call.
-        //Check in which Request List to add the requests.
-        switch (Direction){
-            case "Up":
-                Console.WriteLine(">> Request processed, elevator found: " + String(AvailableElevators[0].ID));
-                AvailableElevators[0].AddRequest(FloorNumber, "Up");
-                break;
-            case "Down":
-                Console.WriteLine(">> Request processed, elevator found: " + String(AvailableElevators[0].ID));
-                AvailableElevators[0].AddRequest(FloorNumber, "Down");
-                break;
+        else if (AvailableElevators.Count() == 1)
+        {
+
         }
-        break;
-    case AvailableElevators.length = 0:
-        //If nothing is added in the list, this can only mean 1: all the elevators are Off. 2: all the elevators are OutOfOrder
-        //In this case the call is forgotten, light on button is turn Off and isPressed is turned back False
-        for (i = 0; i < this.OutsideButtons.length; i++){
-            if (this.OutsideButtons[i].Floor == FloorNumber && this.OutsideButtons[i].Direction == Direction){
-                this.OutsideButtons[i].Light = "Off";
-                this.OutsideButtons[i].isPressed = false;
-                Console.WriteLine(">> Request processed: No elevators can receive calls at the moment, sorry. - Forget");
-                Console.WriteLine("\n");
-                break;
-            }
+        else if (AvailableElevators.Count() == 0)
+        {
+
         }
-        break;
     }
-} 
 }
+
     static class Program
     {
         static void Main(string[] args)
