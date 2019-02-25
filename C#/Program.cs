@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace C_
+namespace CorporateElevatorSolution
 {
     class Program
     {
