@@ -198,6 +198,78 @@ public class Controller
         }
         
     }
+
+    //      Show Columns    //
+    //Description: Function used to show all the column in the Columns list.
+    private void ShowColumns()
+    {
+        Console.WriteLine("Columns:");
+        int i = 0;
+        foreach (Column element in Columns)
+        {
+            Console.WriteLine("ID: " + Columns[i].ID + ", Elevators: [" + string.Join(',', Columns[i].ColElevator) + "]");
+            i++;
+        }
+       Console.WriteLine("\r");
+    }
+
+    //      Show OutsideButtons     //
+    //Description: Function used to show all the outside buttons in the OutsideButtons list.
+    private void ShowOutsideButtons()
+    {
+        Console.WriteLine("Outside Buttons:");
+        int i = 0;
+        foreach (OutsideButton element in OutsideButtons)
+        {
+            Console.WriteLine("ID: " + OutsideButtons[i].ID + ", Floor: " + string.Join(',',OutsideButtons[i].Floor) + ", Direction: " + string.Join(',',OutsideButtons[i].Direction) + ", IsPressed: " + string.Join(',',OutsideButtons[i].IsPressed) + ", Light: " + string.Join(',',OutsideButtons[i].Light));
+            i++;
+        }
+    }
+
+    //      Show InsideButtons     //
+    //Description: Function used to show all the inside buttons in the InsideButtons list.
+    private void ShowInsideButtons()
+    {
+        Console.WriteLine("Inside Buttons:");
+        int i = 0;
+        foreach (InsideButton element in InsideButtons)
+        {
+            Console.WriteLine("ID: " + InsideButtons[i].ID + ", Floor: " + string.Join(',',InsideButtons[i].Floor) + ", Elevator: " + string.Join(',',InsideButtons[i].Elevator) + ", IsPressed: " + string.Join(',',InsideButtons[i].IsPressed) + ", Light: " + string.Join(',',InsideButtons[i].Light));
+            i++;
+        }
+    }
+
+    //      MoveUp      //
+    //Description: Function used to move the elevator up, it represent the motor that goes up. 
+    private int MoveUp(Elevator elevator)
+    {
+        if (elevator.Motion == "Stop")
+        {
+            Console.WriteLine("> Elevator: " + elevator.ID.ToString() + ", Started engine to go Up");
+        }
+        elevator.Motion = "Up"; //Engine is going Up!
+        //DYNAMIC !!! Changes to Requests List can still be made, and ServeCalls test it live.
+        //We simulate that the motor start to go in the right direction and that the sensor tell it which position it is. 
+        elevator.Position +=1;
+        return elevator.Position;
+        // TODO 5.0 Finish MoveUp function. <OD, 2019-2-21, d:2019-2-21, 23:59, p:3>
+    }
+
+    //      MoveDown      //
+    //Description: Function used to move the elevator down, it represent the motor that goes down.
+    private int MoveDown(Elevator elevator)
+    {
+       if (elevator.Motion == "Stop"){
+        Console.WriteLine("> Elevator: " + elevator.ID.ToString() + ", Started engine to go Down");
+       }
+       elevator.Motion = "Down"; //Engine is going Down!
+       //DYNAMIC !!! Changes to Requests List can still be made, and ServeCalls test it live.
+       //We simulate that the motor start to go in the right direction and that the sensor tell it which position it is. 
+       elevator.Position -=1;
+       return elevator.Position;
+       // TODO 6.0 Finish MoveDown function. <OD, 2019-2-21, d:2019-2-21, 23:59, p:3>
+       // TODO 7.0 Check for removing the FloorNumber and doing that process in ServeCalls. <OD, 2019-2-21, d:2019-2-21, p:3>
+    }
 }
     static class Program
     {
