@@ -1,0 +1,11 @@
+c:\Projects\Rocket_Elevators_Corporate_Controller\C#\bin\Debug\netcoreapp2.2\C#.deps.json
+c:\Projects\Rocket_Elevators_Corporate_Controller\C#\bin\Debug\netcoreapp2.2\C#.runtimeconfig.json
+c:\Projects\Rocket_Elevators_Corporate_Controller\C#\bin\Debug\netcoreapp2.2\C#.runtimeconfig.dev.json
+c:\Projects\Rocket_Elevators_Corporate_Controller\C#\bin\Debug\netcoreapp2.2\C#.dll
+c:\Projects\Rocket_Elevators_Corporate_Controller\C#\bin\Debug\netcoreapp2.2\C#.pdb
+c:\Projects\Rocket_Elevators_Corporate_Controller\C#\obj\Debug\netcoreapp2.2\C#.csprojAssemblyReference.cache
+c:\Projects\Rocket_Elevators_Corporate_Controller\C#\obj\Debug\netcoreapp2.2\C#.csproj.CoreCompileInputs.cache
+c:\Projects\Rocket_Elevators_Corporate_Controller\C#\obj\Debug\netcoreapp2.2\C#.AssemblyInfoInputs.cache
+c:\Projects\Rocket_Elevators_Corporate_Controller\C#\obj\Debug\netcoreapp2.2\C#.AssemblyInfo.cs
+c:\Projects\Rocket_Elevators_Corporate_Controller\C#\obj\Debug\netcoreapp2.2\C#.dll
+c:\Projects\Rocket_Elevators_Corporate_Controller\C#\obj\Debug\netcoreapp2.2\C#.pdb
