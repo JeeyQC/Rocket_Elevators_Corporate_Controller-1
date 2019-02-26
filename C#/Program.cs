@@ -914,9 +914,16 @@ public class Battery
             n = 1;
             while (n <= NbElevatorsByColumns)
             {
-                column.ColElevator.Add(Elevators[i]);
-                i++;
-                n++;
+                if (Elevators.ElementAtOrDefault(i) != null)
+                {
+                    column.ColElevator.Add(Elevators[i]);
+                    i++;
+                    n++;
+                }
+                else
+                {
+                    break;
+                }
             }
         }
 
@@ -935,7 +942,6 @@ public class Battery
             }
             i++;
         }
-
       Console.WriteLine("- LISTS CREATED");
       Console.WriteLine("- ELEVATORS READY");
       Console.WriteLine("> SYSTEM READY");
