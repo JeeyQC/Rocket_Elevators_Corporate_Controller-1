@@ -872,7 +872,7 @@ public class Battery
         }
         
         //GroundFloorButtons List
-        i = 1;
+        i = 2;
         while (i <= NbFloors)
         {
             string ID_Up = "GfBtn_Floor" + i.ToString();
@@ -882,7 +882,7 @@ public class Battery
         }
         
         //FloorButtons List
-        i = 1;
+        i = 2;
         while (i <= NbElevators)
         {
             string ID = "iBtn" + i.ToString();
@@ -967,8 +967,10 @@ public class Battery
             Console.WriteLine("<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>");
             Console.WriteLine("                     System Serves Calls                    \r");
             Console.WriteLine("<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>\r");
-            b.ShowElevators();
-            b.ShowColumns();
+            //b.ShowElevators();
+            //b.ShowColumns();
+            b.ShowGroundFloorButtons();
+            b.ShowFloorButtons();
             while (System)
             {
                 //b.ListenOutsidePanel();
