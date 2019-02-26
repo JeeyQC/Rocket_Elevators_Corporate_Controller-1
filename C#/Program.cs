@@ -64,7 +64,7 @@ public class Column
 /////////////////////////////////////////
 //         Class: OutsideButton        //
 /////////////////////////////////////////
-public class OutsideButton
+public class GroundFloorButton
 {
     //Class variables declaration
     //Description: Declare all the variables of the OutsideButton Class.
@@ -75,7 +75,7 @@ public class OutsideButton
     public bool Light{get; set;}
     //      Constructor     //
     //Description: Initialize the outside button object with default value, using id, floor and direction.
-    public OutsideButton(string id, int floor, string direction)
+    public GroundFloorButton(string id, int floor, string direction)
     {
         this.ID = id;
         this.Floor = floor;
@@ -84,9 +84,9 @@ public class OutsideButton
 }
 
 /////////////////////////////////////////
-//         Class: InsideButton         //
+//         Class: FloorButton         //
 /////////////////////////////////////////
-public class InsideButton
+public class FloorButton
 {
     //Class variables declaration
     //Description: Declare all the variables of the InsideButton Class.
@@ -97,7 +97,7 @@ public class InsideButton
     public bool Light{get; set;}
     //      Constructor     //
     //Description: Initialize the inside buttons objects with default value, using id, floor and direction.
-    public InsideButton(string id, int floor, Elevator elevator)
+    public FloorButton(string id, int floor, Elevator elevator)
     {
         this.ID = id;
         this.Floor = floor;
@@ -115,8 +115,8 @@ public class Battery
     public string Name{get;}
     public List<Elevator> Elevators{get;}
     public List<Column> Columns{get;}
-    public List<OutsideButton> OutsideButtons{get;}
-    public List<InsideButton> InsideButtons{get;}
+    public List<GroundFloorButton> GroundFloorButtons{get;}
+    public List<FloorButton> FloorButtons{get;}
     public int MaxWeight{get; private set;}
     public string inputNbFloors{get;private set;}
     public string inputNbColumns{get;private set;}
@@ -134,8 +134,8 @@ public class Battery
         this.Name = name;
         this.Elevators = new List<Elevator>();
         this.Columns = new List<Column>();
-        this.OutsideButtons = new List<OutsideButton>();
-        this.InsideButtons = new List<InsideButton>();
+        this.GroundFloorButtons = new List<GroundFloorButton>();
+        this.FloorButtons = new List<FloorButton>();
         this.MaxWeight = 4500;
     }
 
@@ -203,19 +203,19 @@ public class Battery
     {
         Console.WriteLine("ELEVATORS");
         int i = 0;
-        foreach (Elevator element in Elevators)
+        foreach (Elevator elevator in Elevators)
         {
-            if (Elevators[i].RequestsUp.Any() && Elevators[i].RequestsDown.Any()){
-                Console.WriteLine("ID: " + Elevators[i].ID + ", Status: " + Elevators[i].Status + ", Direction: " + Elevators[i].Direction + ", Motion: " + Elevators[i].Motion + ", Positon: " + Elevators[i].Position + ", Door: " + Elevators[i].Door + ", Requests Up: [" + string.Join(',', Elevators[i].RequestsUp) + "], Requests Down: [" + string.Join(',', Elevators[i].RequestsDown) + "]");
+            if (elevator.RequestsUp.Any() && elevator.RequestsDown.Any()){
+                Console.WriteLine("ID: " + elevator.ID + ", Status: " + elevator.Status + ", Direction: " + elevator.Direction + ", Motion: " + elevator.Motion + ", Positon: " + elevator.Position + ", Door: " + elevator.Door + ", Requests Up: [" + string.Join(',', elevator.RequestsUp) + "], Requests Down: [" + string.Join(',', elevator.RequestsDown) + "]");
             }
-            else if (Elevators[i].RequestsUp.Any() && !Elevators[i].RequestsDown.Any()){
-                Console.WriteLine("ID: " + Elevators[i].ID + ", Status: " + Elevators[i].Status + ", Direction: " + Elevators[i].Direction + ", Motion: " + Elevators[i].Motion + ", Positon: " + Elevators[i].Position.ToString() + ", Door: " + Elevators[i].Door.ToString() + ", Requests Up: [" + string.Join(',', Elevators[i].RequestsUp) + "], Requests Down: []");
+            else if (elevator.RequestsUp.Any() && !elevator.RequestsDown.Any()){
+                Console.WriteLine("ID: " + elevator.ID + ", Status: " + elevator.Status + ", Direction: " + elevator.Direction + ", Motion: " + elevator.Motion + ", Positon: " + elevator.Position.ToString() + ", Door: " + elevator.Door.ToString() + ", Requests Up: [" + string.Join(',', elevator.RequestsUp) + "], Requests Down: []");
             }
-            else if (!Elevators[i].RequestsUp.Any() && Elevators[i].RequestsDown.Any()){
-                Console.WriteLine("ID: " + Elevators[i].ID + ", Status: " + Elevators[i].Status + ", Direction: " + Elevators[i].Direction + ", Motion: " + Elevators[i].Motion + ", Positon: " + Elevators[i].Position.ToString() + ", Door: " + Elevators[i].Door.ToString() + ", Requests Up: [], Requests Down: [" + string.Join(',', Elevators[i].RequestsDown) + "]");
+            else if (!elevator.RequestsUp.Any() && elevator.RequestsDown.Any()){
+                Console.WriteLine("ID: " + elevator.ID + ", Status: " + elevator.Status + ", Direction: " + elevator.Direction + ", Motion: " + elevator.Motion + ", Positon: " + elevator.Position.ToString() + ", Door: " + elevator.Door.ToString() + ", Requests Up: [], Requests Down: [" + string.Join(',', elevator.RequestsDown) + "]");
             }
-            else if (!Elevators[i].RequestsUp.Any() && !Elevators[i].RequestsDown.Any()){
-                Console.WriteLine("ID: " + Elevators[i].ID + ", Status: " + Elevators[i].Status + ", Direction: " + Elevators[i].Direction + ", Motion: " + Elevators[i].Motion + ", Positon: " + Elevators[i].Position.ToString() + ", Door: " + Elevators[i].Door.ToString() + ", Requests Up: [], Requests Down: []");
+            else if (!elevator.RequestsUp.Any() && !elevator.RequestsDown.Any()){
+                Console.WriteLine("ID: " + elevator.ID + ", Status: " + elevator.Status + ", Direction: " + elevator.Direction + ", Motion: " + elevator.Motion + ", Positon: " + elevator.Position.ToString() + ", Door: " + elevator.Door.ToString() + ", Requests Up: [], Requests Down: []");
             }
             i++;
         }
@@ -229,43 +229,43 @@ public class Battery
         Console.WriteLine("COLUMNS");
         int i = 0;
         int n = 0;
-        foreach (Column element in Columns)
+        foreach (Column column in Columns)
         {
             List<string> EleID = new List<string>();
             n = 0;
-            foreach (Elevator e in element.ColElevator)
+            foreach (Elevator e in column.ColElevator)
             {
                 EleID.Add(e.ID);
                 n++;
             }
-            Console.WriteLine("ID: " + Columns[i].ID + ", Elevators: [" + string.Join(',', EleID) + "]");
+            Console.WriteLine("ID: " + column.ID + ", Elevators: [" + string.Join(',', EleID) + "]");
             i++;
         }
        Console.WriteLine("\r");
     }
 
-    //      Show OutsideButtons     //
+    //      Show GroundFloorButtons     //
     //Description: Function used to show all the outside buttons in the OutsideButtons list.
-    public void ShowOutsideButtons()
+    public void ShowGroundFloorButtons()
     {
-        Console.WriteLine("Outside Buttons:");
+        Console.WriteLine("Ground Floor Buttons:");
         int i = 0;
-        foreach (OutsideButton element in OutsideButtons)
+        foreach (GroundFloorButton GfBtn in GroundFloorButtons)
         {
-            Console.WriteLine("ID: " + OutsideButtons[i].ID + ", Floor: " + string.Join(',',OutsideButtons[i].Floor) + ", Direction: " + string.Join(',',OutsideButtons[i].Direction) + ", IsPressed: " + string.Join(',',OutsideButtons[i].IsPressed) + ", Light: " + string.Join(',',OutsideButtons[i].Light));
+            Console.WriteLine("ID: " + GfBtn.ID + ", Floor: " + GfBtn.Floor.ToString() + ", Direction: " + string.Join(',',GfBtn.Direction) + ", IsPressed: " + string.Join(',',GfBtn.IsPressed) + ", Light: " + string.Join(',',GfBtn.Light));
             i++;
         }
     }
 
-    //      Show InsideButtons     //
+    //      Show Floor Buttons     //
     //Description: Function used to show all the inside buttons in the InsideButtons list.
-    public void ShowInsideButtons()
+    public void ShowFloorButtons()
     {
-        Console.WriteLine("Inside Buttons:");
+        Console.WriteLine("Floor Buttons:");
         int i = 0;
-        foreach (InsideButton element in InsideButtons)
+        foreach (FloorButton fBtn in FloorButtons)
         {
-            Console.WriteLine("ID: " + InsideButtons[i].ID + ", Floor: " + string.Join(',',InsideButtons[i].Floor) + ", Elevator: " + string.Join(',',InsideButtons[i].Elevator) + ", IsPressed: " + string.Join(',',InsideButtons[i].IsPressed) + ", Light: " + string.Join(',',InsideButtons[i].Light));
+            Console.WriteLine("ID: " + fBtn.ID + ", Floor: " + string.Join(',',fBtn.Floor) + ", Elevator: " + string.Join(',',fBtn.Elevator) + ", IsPressed: " + string.Join(',',fBtn.IsPressed) + ", Light: " + string.Join(',',fBtn.Light));
             i++;
         }
     }
@@ -361,7 +361,7 @@ public class Battery
         //We call the weight sensor
         WeightSensor(elevator);
         while (elevator.Door == "Open"){
-            if (elevator.Weight >= this.MaxWeight){
+            if (elevator.Weight >= MaxWeight){
                 Console.WriteLine(">>> Alert! The elevator Max Weight has been reached! Please get out!");
             }
             else if (elevator.DoorSensor){
@@ -383,142 +383,142 @@ public class Battery
     public void ServesCalls()
     {
         int i = 0;
-        foreach (Elevator element in Elevators)
+        foreach (Elevator elevator in Elevators)
         {
-            switch (Elevators[i].Direction)
+            switch (elevator.Direction)
             {
                 case "Up":
                     //Case Direction UP
-                    if (Elevators[i].RequestsUp.Any() && Elevators[i].Motion != "Stop")
+                    if (elevator.RequestsUp.Any() && elevator.Motion != "Stop")
                     {
                         //The next request is on the elevator way.
-                        if (Elevators[i].Position < Elevators[i].RequestsUp[0])
+                        if (elevator.Position < elevator.RequestsUp[0])
                         {
-                            if (Elevators[i].Motion != "Up")
+                            if (elevator.Motion != "Up")
                             {
-                                Console.WriteLine("> Elevator: " + Elevators[i].ID.ToString() + ", Started engine to go Up");
+                                Console.WriteLine("> Elevator: " + elevator.ID.ToString() + ", Started engine to go Up");
                             }
-                            if (MoveUp(Elevators[i]) == Elevators[i].RequestsUp[0])
+                            if (MoveUp(elevator) == elevator.RequestsUp[0])
                             {
-                                Console.WriteLine(">> Elevator: " + Elevators[i].ID + ", Has arrived at destination on floor: " + Elevators[i].RequestsUp[0].ToString());
-                                Elevators[i].RequestsUp.RemoveAt(0); //We can delete the floor from the list since we arrived there.
-                                Elevators[i].Motion = "Stop";   //Stop means people are getting In/Out.
-                                Doors(Elevators[i]);
+                                Console.WriteLine(">> Elevator: " + elevator.ID + ", Has arrived at destination on floor: " + elevator.RequestsUp[0].ToString());
+                                elevator.RequestsUp.RemoveAt(0); //We can delete the floor from the list since we arrived there.
+                                elevator.Motion = "Stop";   //Stop means people are getting In/Out.
+                                Doors(elevator);
                             }
                         }    
                         //Elevator must go pick someone and must go in the opposite direction as the calls it does.
-                        else if (Elevators[i].Position > Elevators[i].RequestsUp[0])
+                        else if (elevator.Position > elevator.RequestsUp[0])
                         {
-                            if (Elevators[i].Motion != "Down")
+                            if (elevator.Motion != "Down")
                             {
-                                Console.WriteLine("> Elevator: " + Elevators[i].ID + ", Started engine to go Down");
+                                Console.WriteLine("> Elevator: " + elevator.ID + ", Started engine to go Down");
                             }
-                            if (MoveDown(Elevators[i]) == Elevators[i].RequestsUp[0])
+                            if (MoveDown(elevator) == elevator.RequestsUp[0])
                             {
-                                Console.WriteLine(">> Elevator: " + Elevators[i] + ", Has arrived at destination on floor: " + Elevators[i].RequestsUp[0].ToString());
-                                Elevators[i].RequestsUp.RemoveAt(0);
-                                Elevators[i].Motion = "Stop"; 
-                                Doors(Elevators[i]); //Open the doors
+                                Console.WriteLine(">> Elevator: " + elevator.ID + ", Has arrived at destination on floor: " + elevator.RequestsUp[0].ToString());
+                                elevator.RequestsUp.RemoveAt(0);
+                                elevator.Motion = "Stop"; 
+                                Doors(elevator); //Open the doors
                             }
                         }
                     }
                     //Elevator is stopped but still has call to serve on this requests list.
-                    else if (Elevators[i].RequestsUp.Any() && Elevators[i].Motion == "Stop")
+                    else if (elevator.RequestsUp.Any() && elevator.Motion == "Stop")
                     {
-                        if (Elevators[i].Door == "Closed"
+                        if (elevator.Door == "Closed"
                         ){
-                            if (MoveUp(Elevators[i]) == Elevators[i].RequestsUp[0])
+                            if (MoveUp(elevator) == elevator.RequestsUp[0])
                             {
-                                Console.WriteLine(">> Elevator: " + Elevators[i].ID + ", Has arrived at destination on floor: " + Elevators[i].RequestsUp[0].ToString());
-                                Elevators[i].RequestsUp.RemoveAt(0);
-                                Elevators[i].Motion = "Stop";
-                                Doors(Elevators[i]);
+                                Console.WriteLine(">> Elevator: " + elevator.ID + ", Has arrived at destination on floor: " + elevator.RequestsUp[0].ToString());
+                                elevator.RequestsUp.RemoveAt(0);
+                                elevator.Motion = "Stop";
+                                Doors(elevator);
                             }
                         }
                     }
                     //Switch direction if current request list is empty. 
-                    else if (!Elevators[i].RequestsUp.Any() && Elevators[i].Motion == "Stop")
+                    else if (!elevator.RequestsUp.Any() && elevator.Motion == "Stop")
                     {
-                        if (Elevators[i].Door == "Closed")
+                        if (elevator.Door == "Closed")
                         {
-                            if (Elevators[i].RequestsDown.Any())
+                            if (elevator.RequestsDown.Any())
                             {
-                                Elevators[i].Direction = "Down"; //It will be treated in the next iteration of the loop. We want to treat it in the Down section now. 
+                                elevator.Direction = "Down"; //It will be treated in the next iteration of the loop. We want to treat it in the Down section now. 
                             }
-                            else if (!Elevators[i].RequestsDown.Any())
+                            else if (!elevator.RequestsDown.Any())
                             {
-                                Elevators[i].Direction = "Idle";
-                                Elevators[i].Motion = "Idle";
-                                Console.WriteLine(">>>> Elevator: " + Elevators[i].ID + " is now Idle");
+                                elevator.Direction = "Idle";
+                                elevator.Motion = "Idle";
+                                Console.WriteLine(">>>> Elevator: " + elevator.ID + " is now Idle");
                             }
                         }
                     }
                     break;
                 case "Down":
                     //Case Direction = Down
-                    if (Elevators[i].RequestsDown.Any() && Elevators[i].Motion != "Stop")
+                    if (elevator.RequestsDown.Any() && elevator.Motion != "Stop")
                     {
                         //The next request is on the elevator way.
-                        if (Elevators[i].Position > Elevators[i].RequestsDown[0])
+                        if (elevator.Position > elevator.RequestsDown[0])
                         {
-                            if (Elevators[i].Motion != "Down")
+                            if (elevator.Motion != "Down")
                             {
-                                Console.WriteLine("> Elevator: " + Elevators[i].ID + ", Started engine to go Down");
+                                Console.WriteLine("> Elevator: " + elevator.ID + ", Started engine to go Down");
                             }
-                            if (MoveDown(Elevators[i]) == Elevators[i].RequestsDown[0])
+                            if (MoveDown(elevator) == elevator.RequestsDown[0])
                             {
-                                Console.WriteLine(">> Elevator: " + Elevators[i].ID + ", Has arrived at destination on floor: " + Elevators[i].RequestsDown[0].ToString());
-                                Elevators[i].RequestsDown.RemoveAt(0);
-                                Elevators[i].Motion = "Stop";
-                                Doors(Elevators[i]);
+                                Console.WriteLine(">> Elevator: " + elevator.ID + ", Has arrived at destination on floor: " + elevator.RequestsDown[0].ToString());
+                                elevator.RequestsDown.RemoveAt(0);
+                                elevator.Motion = "Stop";
+                                Doors(elevator);
                             }
                         }
         
                         //Elevator must go pick someone and must go in the opposite direction as the calls it does.
-                        else if (Elevators[i].Position < Elevators[i].RequestsDown[0])
+                        else if (elevator.Position < elevator.RequestsDown[0])
                         {
-                            if (Elevators[i].Motion != "Up")
+                            if (elevator.Motion != "Up")
                             {
-                                Console.WriteLine("> Elevator: " + Elevators[i].ID + ", Started engine to go Up");    
+                                Console.WriteLine("> Elevator: " + elevator.ID + ", Started engine to go Up");    
                             }
-                            if (MoveUp(Elevators[i]) == Elevators[i].RequestsDown[0])
+                            if (MoveUp(elevator) == elevator.RequestsDown[0])
                             {
-                                Console.WriteLine(">> Elevator: " + Elevators[i].ID + ", Has arrived at destination on floor: " + Elevators[i].RequestsDown[0].ToString());
-                                Elevators[i].RequestsDown.RemoveAt(0);
-                                Elevators[i].Motion = "Stop";
-                                Doors(Elevators[i]);
+                                Console.WriteLine(">> Elevator: " + elevator.ID + ", Has arrived at destination on floor: " + elevator.RequestsDown[0].ToString());
+                                elevator.RequestsDown.RemoveAt(0);
+                                elevator.Motion = "Stop";
+                                Doors(elevator);
                             }
                         }
                     
                         //Elevator is stopped but still has call to serve on this requests list.
-                        else if (Elevators[i].RequestsDown.Any() && Elevators[i].Motion == "Stop")
+                        else if (elevator.RequestsDown.Any() && elevator.Motion == "Stop")
                         {
-                            if (Elevators[i].Door == "Closed")
+                            if (elevator.Door == "Closed")
                             {
-                                if (MoveDown(Elevators[i]) == Elevators[i].RequestsDown[0])
+                                if (MoveDown(elevator) == elevator.RequestsDown[0])
                                 {
-                                    Console.WriteLine(">> Elevator: " + Elevators[i].ID + ", Has arrived at destination on floor: " + Elevators[i].RequestsDown[0].ToString());
-                                    Elevators[i].RequestsDown.RemoveAt(0);
-                                    Elevators[i].Motion = "Stop";
-                                    Doors(Elevators[i]);
+                                    Console.WriteLine(">> Elevator: " + elevator.ID + ", Has arrived at destination on floor: " + elevator.RequestsDown[0].ToString());
+                                    elevator.RequestsDown.RemoveAt(0);
+                                    elevator.Motion = "Stop";
+                                    Doors(elevator);
                                 }
                             }
                         }
                     }
                     //Switch direction if current request list is empty.
-                    else if (!Elevators[i].RequestsDown.Any() && Elevators[i].Motion == "Stop")
+                    else if (!elevator.RequestsDown.Any() && elevator.Motion == "Stop")
                     {
-                        if (Elevators[i].Door == "Closed")
+                        if (elevator.Door == "Closed")
                         {
-                            if (Elevators[i].RequestsUp.Any())
+                            if (elevator.RequestsUp.Any())
                             {
-                                Elevators[i].Direction = "Up"; //It will be treated in the next iteration of the loop. We want to treat it in the Up section now.
+                                elevator.Direction = "Up"; //It will be treated in the next iteration of the loop. We want to treat it in the Up section now.
                             }
-                            else if (!Elevators[i].RequestsUp.Any())
+                            else if (!elevator.RequestsUp.Any())
                             {
-                                Elevators[i].Direction = "Idle";
-                                Elevators[i].Motion = "Idle";
-                                Console.WriteLine(">>>> Elevator: " + Elevators[i].ID + " is now Idle");
+                                elevator.Direction = "Idle";
+                                elevator.Motion = "Idle";
+                                Console.WriteLine(">>>> Elevator: " + elevator.ID + " is now Idle");
                             }
                         }
                     }
@@ -544,35 +544,33 @@ public class Battery
 
         // STEP 1: If the elevator can receive calls, add it to Available Elevator List.
         Console.WriteLine("> Outside Panel, Request Detected: Floor: " + FloorNumber.ToString() + ", Direction: " + Direction);
-        foreach (Elevator element in Elevators)
+        foreach (Elevator elevator in Elevators)
         {
-            if (Elevators[i].Status == "On")
+            if (elevator.Status == "On")
             {
-                AvailableElevators.Add(Elevators[i]);
+                AvailableElevators.Add(elevator);
             }
-            i++;
         }
 
         if (AvailableElevators.Count() > 1)
         {
-            i = 0;
-            foreach (Elevator element in AvailableElevators)
+            foreach (Elevator AvailableElevator in AvailableElevators)
             {
                 switch (Direction)
                 {
                     case "Up":
-                        if (AvailableElevators[i].Direction == "Up")
+                        if (AvailableElevator.Direction == "Up")
                         {
-                            if (AvailableElevators[i].RequestsUp.Contains(FloorNumber))
+                            if (AvailableElevator.RequestsUp.Contains(FloorNumber))
                             {
                                 Console.WriteLine(">> Outside Panel Floor: " + FloorNumber.ToString() + " Direction: " + Direction + ", Elevator already in requests list. Request aborted.");
                                 Console.WriteLine("\n");
                                 return;
                             }
                         }
-                        else if (AvailableElevators[i].Direction == "Down")
+                        else if (AvailableElevator.Direction == "Down")
                         {
-                            if (AvailableElevators[i].RequestsUp.Contains(FloorNumber))
+                            if (AvailableElevator.RequestsUp.Contains(FloorNumber))
                             {
                                 Console.WriteLine(">> Outside Panel Floor: " + FloorNumber.ToString() + " Direction: " + Direction + ", Elevator already in requests list. Request aborted.");
                                 Console.WriteLine("\n");
@@ -581,18 +579,18 @@ public class Battery
                         }
                     break;
                     case "Down":
-                        if (AvailableElevators[i].Direction == "Down")
+                        if (AvailableElevator.Direction == "Down")
                         {
-                            if (AvailableElevators[i].RequestsDown.Contains(FloorNumber))
+                            if (AvailableElevator.RequestsDown.Contains(FloorNumber))
                             {
                                 Console.WriteLine(">> Outside Panel Floor: " + FloorNumber.ToString() + " Direction: " + Direction + ", Elevator already in requests list. Request aborted.");
                                 Console.WriteLine("\n");
                                 return;
                             }
                         }
-                        else if (AvailableElevators[i].Direction == "Up")
+                        else if (AvailableElevator.Direction == "Up")
                         {
-                            if (AvailableElevators[i].RequestsDown.Contains(FloorNumber))
+                            if (AvailableElevator.RequestsDown.Contains(FloorNumber))
                             {
                                 Console.WriteLine(">> Outside Panel Floor: " + FloorNumber.ToString() + " Direction: " + Direction + ", Elevator already in requests list. Request aborted.");
                                 Console.WriteLine("\n");
@@ -601,17 +599,15 @@ public class Battery
                         }
                     break;
                 }
-                i++;
             }
                 
             // STEP 3: We check there is on element in the list that meet those requirements: If it goes in the same direction as the call 
             // AND if it has not already passed that floor.
-            i = 0;
-            foreach (Elevator element in AvailableElevators)
+            foreach (Elevator AvailableElevator in AvailableElevators)
             {
-                if (AvailableElevators[i].Direction == Direction)
+                if (AvailableElevator.Direction == Direction)
                 {
-                    eleDif = AvailableElevators[i].Position - FloorNumber;
+                    eleDif = AvailableElevator.Position - FloorNumber;
                     switch (Direction)
                     {
                         case "Up":
@@ -628,50 +624,48 @@ public class Battery
                             break;
                     }
                 }
-                i++;
             }
 
             //If one of the previous checks ended up True, there's no need to keep the others who doesn't meet those requirements.
             if (OnTheWay_U)
             {
                 i = 0;
-                foreach (Elevator element in AvailableElevators)
+                foreach (Elevator AvailableElevator in AvailableElevators)
                 {
-                    if (AvailableElevators[i].Direction == "Down")
+                    if (AvailableElevator.Direction == "Down")
                     {
                         AvailableElevators.RemoveAt(i);
                     }
+                    i++;
                 }
             }
             else if (OnTheWay_D)
             {   
                 i = 0;
-                foreach (Elevator element in AvailableElevators)
+                foreach (Elevator AvailableElevator in AvailableElevators)
                 {
-                    if (AvailableElevators[i].Direction == "Up")
+                    if (AvailableElevator.Direction == "Up")
                     {
                         AvailableElevators.RemoveAt(i);
                     }
+                    i++;
                 }
             }
 
             // STEP 4: Once the list only contains what we are sure is the Available Elevators, we find the lowest difference between 
             // floor and elevator position, then look for the lowest number of requests.
-            i = 0;
-            foreach (Elevator element in AvailableElevators)
+            foreach (Elevator AvailableElevator in AvailableElevators)
             {
-                eleDif = Math.Abs(AvailableElevators[i].Position - FloorNumber);
+                eleDif = Math.Abs(AvailableElevator.Position - FloorNumber);
                 if (eleDif <= minDif)
                 {
                     minDif = eleDif;
                 }
-                i++;
             }
-            i = 0;
-            foreach (Elevator element in AvailableElevators)
+            foreach (Elevator AvailableElevator in AvailableElevators)
             {
-                eleDif = Math.Abs(AvailableElevators[i].Position - FloorNumber);
-                eleReqs = AvailableElevators[i].RequestsUp.Count() + AvailableElevators[i].RequestsDown.Count();
+                eleDif = Math.Abs(AvailableElevator.Position - FloorNumber);
+                eleReqs = AvailableElevator.RequestsUp.Count() + AvailableElevator.RequestsDown.Count();
                 if (eleDif == minDif)
                 {
                     if (eleReqs <= minReqs)
@@ -679,32 +673,29 @@ public class Battery
                         minReqs = eleReqs;
                     }
                 }
-                i++;
             }
 
             // STEP 5: Once we have the value of the lowest, we search it in the Available Elevators List and call the function AddRequest which add
             // the request on the elevator good list. 
-            i = 0;
-            foreach (Elevator element in AvailableElevators)
+            foreach (Elevator AvailableElevator in AvailableElevators)
             {
-                eleDif = Math.Abs(AvailableElevators[i].Position - FloorNumber);
-                eleReqs = AvailableElevators[i].RequestsUp.Count() + AvailableElevators[i].RequestsDown.Count();
+                eleDif = Math.Abs(AvailableElevator.Position - FloorNumber);
+                eleReqs = AvailableElevator.RequestsUp.Count() + AvailableElevator.RequestsDown.Count();
                 if (eleDif == minDif && eleReqs == minReqs)
                 {
                     //Check in which Request List to add the requests.
                     switch (Direction)
                     {
                         case "Up":
-                            Console.WriteLine(">> Request processed, elevator found: " + AvailableElevators[i].ID);
-                            AddRequest(AvailableElevators[i], FloorNumber, "Up");
+                            Console.WriteLine(">> Request processed, elevator found: " + AvailableElevator.ID);
+                            AddRequest(AvailableElevator, FloorNumber, "Up");
                             break;
                         case "Down":
-                            Console.WriteLine(">> Request processed, elevator found: " + AvailableElevators[i].ID);
-                            AddRequest(AvailableElevators[i], FloorNumber, "Down");
+                            Console.WriteLine(">> Request processed, elevator found: " + AvailableElevator.ID);
+                            AddRequest(AvailableElevator, FloorNumber, "Down");
                             break;
                     }
                 }
-                i++;
             }
         }
         else if (AvailableElevators.Count() == 1)
@@ -727,13 +718,12 @@ public class Battery
         {
             //If nothing is added in the list, this can only mean 1: all the elevators are Off. 2: all the elevators are OutOfOrder
             //In this case the call is forgotten, light on button is turn Off and isPressed is turned back False
-            i = 0;
-            foreach (OutsideButton element in OutsideButtons)
+            foreach (GroundFloorButton GfBtn in GroundFloorButtons)
             {
-                if (OutsideButtons[i].Floor == FloorNumber && OutsideButtons[i].Direction == Direction)
+                if (GfBtn.Floor == FloorNumber && GfBtn.Direction == Direction)
                 {
-                    OutsideButtons[i].Light = false;
-                    OutsideButtons[i].IsPressed = false;
+                    GfBtn.Light = false;
+                    GfBtn.IsPressed = false;
                     Console.WriteLine(">> Request processed: No elevators can receive calls at the moment, sorry.");
                     Console.WriteLine("\n");
                     break;
@@ -812,37 +802,34 @@ public class Battery
     {
         int floor;
         string direction;
-        int i = 0;
-        foreach (OutsideButton element in OutsideButtons)
+        foreach (GroundFloorButton GfBtn in GroundFloorButtons)
         {
-            if (OutsideButtons[i].IsPressed == true)
+            if (GfBtn.IsPressed == true)
             {
-                OutsideButtons[i].Light = true;
-                floor = OutsideButtons[i].Floor;
-                direction = OutsideButtons[i].Direction;
-                OutsideButtons[i].IsPressed = false;
+                GfBtn.Light = true;
+                floor = GfBtn.Floor;
+                direction = GfBtn.Direction;
+                GfBtn.IsPressed = false;
                 RequestElevator(floor, direction);
             }
-            i++;
         }
     }
 
-    //  Listen Inside Panel  //
+    //  Listen Floor Panel  //
     //Description: Function used to determine which buttons is pressed 
     //inside an elevator and call the function RequestFloor.
-    public void ListenInsidePanel()
+    public void ListenFloorPanel()
     {
         Elevator elevator;
         int floor;
-        int i = 0;
-        foreach (InsideButton element in InsideButtons)
+        foreach (FloorButton fBtn in FloorButtons)
         {
-            if (InsideButtons[i].IsPressed == true)
+            if (fBtn.IsPressed == true)
             {
-                InsideButtons[i].Light = true;
-                elevator = InsideButtons[i].Elevator;
-                floor = InsideButtons[i].Floor;
-                InsideButtons[i].IsPressed = false;
+                fBtn.Light = true;
+                elevator = fBtn.Elevator;
+                floor = fBtn.Floor;
+                fBtn.IsPressed = false;
                 RequestFloor(elevator, floor);
                 //Now we have all to call the requestFloor, once its done, button is not pressed anymore.
             }
@@ -884,26 +871,23 @@ public class Battery
             i++;;
         }
         
-        //OutsideButtons List
+        //GroundFloorButtons List
         i = 1;
         while (i <= NbFloors)
         {
-            string ID_Up = "oBtn" + i.ToString() + "_U";
-            string ID_Down = "oBtn" + i.ToString() + "_D";
-            OutsideButton bUp = new OutsideButton(ID_Up, i, "UP");
-            OutsideButton bDown = new OutsideButton(ID_Down, i, "DOWN");
-            OutsideButtons.Add(bUp);
-            OutsideButtons.Add(bDown);
+            string ID_Up = "GfBtn_Floor" + i.ToString();
+            GroundFloorButton btn = new GroundFloorButton(ID_Up, i, "UP");
+            GroundFloorButtons.Add(btn);
             i++;;
         }
         
-        //InsideButtons List
+        //FloorButtons List
         i = 1;
         while (i <= NbElevators)
         {
             string ID = "iBtn" + i.ToString();
-            InsideButton iB = new InsideButton(ID, i, Elevators[i-1]);
-            InsideButtons.Add(iB);
+            FloorButton iB = new FloorButton(ID, i, Elevators[i-1]);
+            FloorButtons.Add(iB);
             i++;
         }
         
@@ -988,7 +972,7 @@ public class Battery
             while (System)
             {
                 //b.ListenOutsidePanel();
-                //b.ListenInsidePanel();
+                //b.ListenFloorPanel();
                 b.ServesCalls();
             }
         }
