@@ -48,14 +48,16 @@ public class Column
     //Class variables declaration
     //Description: Declare all the variables of the Column Class.
     public string ID{get; set;}
-    public List<object> ColElevator{get; set;}
+    public List<Elevator> ColElevator{get; set;}
+    public List<int> Serve{get; set;}
 
     //      Constructor     //
     //Description: Initialize the column object with default value, using id.
     public Column(string id)
     {
         this.ID = id;
-        this.ColElevator = new List<object>();
+        this.ColElevator = new List<Elevator>();
+        this.Serve = new List<int>();
     }
 }
 
@@ -842,17 +844,27 @@ public class Battery
     // System Initialization //                     
     public void SystemInit()
     {
+        //Variables declaration
+        int i = 1;
+        int a = 1;
+        int n = 1;
+        int c = 1;
+        double b = Math.Floor((double)NbFloors/(double)NbColumns);       //To lower value cause no overlap so 16 in this case
+        int z = (int)b;
+        int tempZ;
+        int tempA;
+
         Console.WriteLine("                    System Initialization                   ");
         Console.WriteLine("<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>");
         //    Populate All Lists  //
         //Elevators List
-        var i = 1;
+        i = 1;
         while (i <= NbElevators)
         {
             string ID = "ele" + i.ToString();
             Elevator e = new Elevator(ID);
             Elevators.Add(e);
-            i += 1;
+            i++;;
         }
         
         //Columns List
@@ -860,9 +872,9 @@ public class Battery
         while (i <= NbColumns)
         {
             string ID = "col" + i.ToString();
-            Column c = new Column(ID);
-            Columns.Add(c);
-            i += 1;
+            Column column = new Column(ID);
+            Columns.Add(column);
+            i++;;
         }
         
         //OutsideButtons List
@@ -875,7 +887,7 @@ public class Battery
             OutsideButton bDown = new OutsideButton(ID_Down, i, "DOWN");
             OutsideButtons.Add(bUp);
             OutsideButtons.Add(bDown);
-            i += 1;
+            i++;;
         }
         
         //InsideButtons List
@@ -885,20 +897,40 @@ public class Battery
             string ID = "iBtn" + i.ToString();
             InsideButton iB = new InsideButton(ID, i, Elevators[i-1]);
             InsideButtons.Add(iB);
-            i += 1;
+            i++;
         }
         
         //Column attribute ColElevator in Columns List
         i = 0;
         foreach (Column element in Columns)
         {
-            var n = 0;
+            n = 1;
             while (n <= NbElevatorsByColumns)
             {
                 Columns[i].ColElevator.Add(Elevators[n-1]);
                 n += 1;
             }
+            i++;
         }
+
+        //Add the range of floors to column
+        i = 1;
+        while (i <= NbFloors)
+        {
+            c = 0;
+            foreach (Column element in Columns)
+            {
+                tempZ = a + z;
+                Columns[c].Serve.Append(a);
+                Columns[c].Serve.Append(tempZ);
+                tempA = tempZ + 1;
+                a = tempA;
+                i = tempZ;
+                c++;
+            }
+            i++;
+        }
+
       Console.WriteLine("- LISTS CREATED");
       Console.WriteLine("- ELEVATORS READY");
       Console.WriteLine("> SYSTEM READY");
@@ -931,6 +963,8 @@ public class Battery
             /// Start controller ///
             Battery b = new Battery("Battery1");
             Console.WriteLine("- " + b.Name + " added...\n");
+            Console.WriteLine("Enter the building informations:");
+            b.Input();
             b.SystemInit();
             Console.WriteLine("> Listening to outside panels");
             Console.WriteLine("> Listening to inside panels");
@@ -938,6 +972,7 @@ public class Battery
             Console.WriteLine("<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>");
             Console.WriteLine("                     System Serves Calls                    \r");
             Console.WriteLine("<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>\r");
+            b.ShowColumns();
             while (System)
             {
                 //b.ListenOutsidePanel();
