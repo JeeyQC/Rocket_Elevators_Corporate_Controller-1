@@ -201,7 +201,7 @@ public class Battery
     //Description: Function used to show all the elevator in the Elevators list.
     public void ShowElevators()
     {
-        Console.WriteLine("Elevators:");
+        Console.WriteLine("ELEVATORS");
         int i = 0;
         foreach (Elevator element in Elevators)
         {
@@ -219,18 +219,26 @@ public class Battery
             }
             i++;
         }
-        
+        Console.WriteLine("\r");
     }
 
     //      Show Columns    //
     //Description: Function used to show all the column in the Columns list.
     public void ShowColumns()
     {
-        Console.WriteLine("Columns:");
+        Console.WriteLine("COLUMNS");
         int i = 0;
+        int n = 0;
         foreach (Column element in Columns)
         {
-            Console.WriteLine("ID: " + Columns[i].ID + ", Elevators: [" + string.Join(',', Columns[i].ColElevator) + "]");
+            List<string> EleID = new List<string>();
+            n = 0;
+            foreach (Elevator e in element.ColElevator)
+            {
+                EleID.Add(e.ID);
+                n++;
+            }
+            Console.WriteLine("ID: " + Columns[i].ID + ", Elevators: [" + string.Join(',', EleID) + "]");
             i++;
         }
        Console.WriteLine("\r");
@@ -848,7 +856,6 @@ public class Battery
         int i = 1;
         int a = 1;
         int n = 1;
-        int c = 1;
         double b = Math.Floor((double)NbFloors/(double)NbColumns);       //To lower value cause no overlap so 16 in this case
         int z = (int)b;
         int tempZ;
@@ -902,31 +909,29 @@ public class Battery
         
         //Column attribute ColElevator in Columns List
         i = 0;
-        foreach (Column element in Columns)
+        foreach (Column column in Columns)
         {
             n = 1;
             while (n <= NbElevatorsByColumns)
             {
-                Columns[i].ColElevator.Add(Elevators[n-1]);
-                n += 1;
+                column.ColElevator.Add(Elevators[i]);
+                i++;
+                n++;
             }
-            i++;
         }
 
         //Add the range of floors to column
         i = 1;
         while (i <= NbFloors)
         {
-            c = 0;
-            foreach (Column element in Columns)
+            foreach (Column column in Columns)
             {
                 tempZ = a + z;
-                Columns[c].Serve.Append(a);
-                Columns[c].Serve.Append(tempZ);
+                column.Serve.Add(a);
+                column.Serve.Add(tempZ);
                 tempA = tempZ + 1;
                 a = tempA;
                 i = tempZ;
-                c++;
             }
             i++;
         }
@@ -938,10 +943,10 @@ public class Battery
    }
 }
 
-/////////////////////////////////////////////////////////////////
-//                 RESIDENTIAL ELEVATORS SYSTEM                //
-/////////////////////////////////////////////////////////////////
-//Description: This is the main function were the elevators listen for calls.
+    /////////////////////////////////////////////////////////////////
+    //                 RESIDENTIAL ELEVATORS SYSTEM                //
+    /////////////////////////////////////////////////////////////////
+    //Description: This is the main function were the elevators listen for calls.
     static class Program
     {
         static void Main(string[] args)
@@ -972,6 +977,7 @@ public class Battery
             Console.WriteLine("<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>");
             Console.WriteLine("                     System Serves Calls                    \r");
             Console.WriteLine("<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>\r");
+            b.ShowElevators();
             b.ShowColumns();
             while (System)
             {
